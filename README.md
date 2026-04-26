@@ -7,7 +7,7 @@ This project provides a single web-based **Bicycle Pressure Calculator**, optimi
 *   **Dynamic Pressure Calculation:** Calculates recommended front and rear tire pressures based on a sophisticated physics engine considering multiple inputs.
 *   **Temperature-Adjusted Recommendations:** Utilizes the Ideal Gas Law to adjust pressure for differences between inflation temperature (garage) and riding temperature (outside).
 *   **Interactive Temperature-Pressure Graph:** Visualizes how tire pressure changes with temperature, allowing users to understand the impact of thermal variations.
-*   **Customizable Weight Distribution:** Choose from predefined profiles (Road Race, Fitness Bike) or manually input a front/rear weight ratio for more accurate calculations.
+*   **Customizable Weight Distribution:** Choose from predefined profiles (Road Race: 44/56, Fitness Bike: 43/57) or manually input a front/rear weight ratio for more accurate calculations.
 *   **Safety Protocols:** Provides warnings and highlights limits for hookless rims and tire maximum pressures.
 *   **Intuitive UI/UX:** Clean, modern, and readable dark-themed interface with an enhanced color palette, refined typography, and clear layout.
 *   **Customizable Profiles:** Easily create and manage different bike setups.
@@ -18,7 +18,7 @@ This project provides a single web-based **Bicycle Pressure Calculator**, optimi
 ### Default Configuration for `index.html`
 The `index.html` file comes pre-configured with the following setup:
 *   **Bike:** BMC Alpenchallenge 01 THREE (L), 9.6kg
-*   **Weight Distribution:** Fitness Bike (50% front)
+*   **Weight Distribution:** Fitness Bike (43% front)
 *   **Wheelset:** DT SWISS C 1800 SPLINE 23 DB (Hooked, 22mm inner width)
 *   **Tires:** Panaracer Gravelking Slick TLC Folding Tire - 32-622 (Max 75 PSI)
 
