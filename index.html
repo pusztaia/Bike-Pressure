@@ -318,6 +318,20 @@
                     </div>
 
                     <div class="input-wrapper">
+                        <label class="input-label">Weight Distribution Profile</label>
+                        <select id="weightDistroProfile" onchange="updateWeightDistro()">
+                            <option value="road_race">Road Race (47/53)</option>
+                            <option value="fitness">Fitness Bike (50/50)</option>
+                            <option value="manual">Manual Input</option>
+                        </select>
+                    </div>
+
+                    <div class="input-wrapper" id="customFRatioWrapper" style="display: none;">
+                        <label class="input-label">Custom Front Ratio (%)</label>
+                        <input type="number" id="customFRatio" value="47.5" min="30" max="70" step="0.1" inputmode="decimal">
+                    </div>
+
+                    <div class="input-wrapper">
                         <label class="input-label">Select Wheelset</label>
                         <select id="wheelSelect" class="select-highlight" onchange="updateWheel()">
                             <option value="dtc1800" selected>DT SWISS C 1800 SPLINE 23 DB (Hooked)</option>
@@ -590,9 +604,9 @@
         };
 
         const bikes = {
-            'bmc_ac01': { name: 'BMC Alpenchallenge 01 THREE', weight: 9.6, defaultWheel: 'dtc1800' },
-            'tcr2025': { name: 'Giant TCR Adv 0 Di2 2025', weight: 7.6, defaultWheel: 'slr0' },
-            'tcr2022': { name: 'TCR Advanced 2022', weight: 8.4, defaultWheel: 'dtswiss' }
+            'bmc_ac01': { name: 'BMC Alpenchallenge 01 THREE', weight: 9.6, defaultWheel: 'dtc1800', distroProfile: 'fitness' },
+            'tcr2025': { name: 'Giant TCR Adv 0 Di2 2025', weight: 7.6, defaultWheel: 'slr0', distroProfile: 'road_race' },
+            'tcr2022': { name: 'TCR Advanced 2022', weight: 8.4, defaultWheel: 'dtswiss', distroProfile: 'road_race' }
         };
 
         const wheelsets = {
@@ -601,7 +615,27 @@
             'dtswiss': { type: 'hooked', limit: 110, name: 'Hooked Rim', w: 18.0 }
         };
 
+        const weightDistributionRatios = {
+            'road_race': 0.47,
+            'fitness': 0.50
+        };
+        let currentFRatio = 0.475;
+
         let pressureChart = null;
+
+        function updateWeightDistro() {
+            const profile = document.getElementById('weightDistroProfile').value;
+            const customWrapper = document.getElementById('customFRatioWrapper');
+            
+            if (profile === 'manual') {
+                customWrapper.style.display = 'block';
+                currentFRatio = parseFloat(document.getElementById('customFRatio').value) / 100;
+            } else {
+                customWrapper.style.display = 'none';
+                currentFRatio = weightDistributionRatios[profile];
+            }
+            calculatePressure();
+        }
 
         function updateBike() {
             const bikeKey = document.getElementById('bikeSelect').value;
@@ -609,6 +643,7 @@
             document.getElementById('bikeWeight').value = bikeData.weight;
             document.getElementById('bikeTitle').textContent = bikeData.name;
             document.getElementById('wheelSelect').value = bikeData.defaultWheel;
+            document.getElementById('weightDistroProfile').value = bikeData.distroProfile;
             updateWheel();
         }
 
@@ -641,7 +676,7 @@
                 header.innerHTML = ' Tubeless Protocols';
                 list.innerHTML = `<li><strong>Hooked Rim:</strong> 73 PSI limit does NOT apply here.</li><li><strong>Tubeless:</strong> Lower pressure is still recommended.</li>`;
             }
-            calculatePressure();
+            updateWeightDistro();
         }
 
         function calculatePressure() {
@@ -678,10 +713,8 @@
             systemTotalPSI += (surfaceAdjust * 2);
             systemTotalPSI += (prefAdjust * 2);
 
-            const fRatio = 0.475;
-            
-            let rawFrontPSI = systemTotalPSI * fRatio;
-            let rawRearPSI = systemTotalPSI * (1 - fRatio);
+            let rawFrontPSI = systemTotalPSI * currentFRatio;
+            let rawRearPSI = systemTotalPSI * (1 - currentFRatio);
 
             const tempKelvinInflation = inflationTemp + 273.15;
             const tempKelvinAmbient = ambientTemp + 273.15;
@@ -859,7 +892,7 @@ function updateChart(baseFront, baseRear, inflationTemp, maxLim) {
 
         updateBike();
         
-        const inputs = ['riderWeight', 'bikeWeight', 'gearWeight', 'surfaceSlider', 'ridePreference', 'ambientTemp', 'inflationTemp', 'tireType', 'tireWidth', 'rimWidth'];
+        const inputs = ['riderWeight', 'bikeWeight', 'gearWeight', 'surfaceSlider', 'ridePreference', 'ambientTemp', 'inflationTemp', 'tireType', 'tireWidth', 'rimWidth', 'weightDistroProfile', 'customFRatio'];
         inputs.forEach(id => {
             const el = document.getElementById(id);
             if(el) el.addEventListener('input', calculatePressure);
