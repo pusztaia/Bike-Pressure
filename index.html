@@ -19,7 +19,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
     <style>
-        :root, .dark-theme {
+        :root {
              /* Palette - Modern Dark */
             --color-primary: #3b82f6;
             --color-primary-dark: #2563eb;
@@ -35,20 +35,6 @@
             
             --radius-md: 16px;
             --radius-sm: 8px;
-        }
-
-        .light-theme {
-            --color-primary: #3b82f6;
-            --color-primary-dark: #2563eb;
-            --color-secondary: #8b5cf6;
-            --color-bg-dark: #f3f4f6;
-            --color-card-bg: rgba(255, 255, 255, 0.85);
-            --color-card-border: rgba(229, 231, 235, 0.5);
-            --color-text-main: #111827;
-            --color-text-muted: #6b7280;
-            --color-success: #10b981;
-            --color-warning: #f59e0b;
-            --color-input-bg: rgba(243, 244, 246, 0.4);
         }
 
         /* iOS Reset */
@@ -287,64 +273,6 @@
             font-size: 12px; color: var(--color-text-muted); margin-bottom: 4px; padding-left: 12px; position: relative;
         }
         .warning-list li::before { content: '›'; position: absolute; left: 0; color: var(--color-warning); font-weight: bold; }
-
-        /* Theme Switch */
-        .theme-switch-wrapper {
-            display: flex;
-            align-items: center;
-            position: absolute;
-            top: 10px;
-            right: 20px;
-        }
-
-        .theme-switch {
-            display: inline-block;
-            height: 24px;
-            position: relative;
-            width: 50px;
-        }
-
-        .theme-switch input {
-            display:none;
-        }
-
-        .slider {
-            background-color: #ccc;
-            bottom: 0;
-            cursor: pointer;
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-            transition: .4s;
-        }
-
-        .slider:before {
-            background-color: #fff;
-            bottom: 4px;
-            content: "";
-            height: 16px;
-            left: 4px;
-            position: absolute;
-            transition: .4s;
-            width: 16px;
-        }
-
-        input:checked + .slider {
-            background-color: var(--color-primary);
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-
-        .slider.round {
-            border-radius: 34px;
-        }
-
-        .slider.round:before {
-            border-radius: 50%;
-        }
     </style>
 </head>
 <body>
@@ -356,12 +284,7 @@
                 <span id="rimBadge" class="badge safe-tech"> Hooked Rim</span>
                 <span id="frameBadge" class="badge"> Size L</span>
             </div>
-            <div class="theme-switch-wrapper">
-                <label class="theme-switch" for="checkbox">
-                    <input type="checkbox" id="checkbox" />
-                    <div class="slider round"></div>
-                </label>
-            </div>
+
         </header>
 
         <div class="main-grid">
@@ -942,35 +865,6 @@ function updateChart(baseFront, baseRear, inflationTemp, maxLim) {
             if(el) el.addEventListener('input', calculatePressure);
         });
     </script>
-    <script>
-        const themeSwitch = document.getElementById('checkbox');
 
-        function switchTheme(e) {
-            if (e.target.checked) {
-                document.body.classList.add('light-theme');
-                localStorage.setItem('theme', 'light');
-            } else {
-                document.body.classList.remove('light-theme');
-                localStorage.setItem('theme', 'dark');
-            }
-            // re-render the chart with the new colors
-            if (pressureChart) {
-                pressureChart.destroy();
-                pressureChart = null;
-            }
-            calculatePressure();
-        }
-
-        themeSwitch.addEventListener('change', switchTheme, false);
-
-        const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
-
-        if (currentTheme) {
-            if (currentTheme === 'light') {
-                document.body.classList.add('light-theme');
-                themeSwitch.checked = true;
-            }
-        }
-    </script>
 </body>
 </html>
