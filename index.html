@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <!-- iOS Optimalizáció: Zoom tiltása, Notch kezelés (cover), teljes képernyő -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#111827">
+    <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="TCR Pressure">
@@ -233,8 +235,91 @@
             font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--color-text-muted);
             margin-bottom: 6px;
         }
-        .temp-data { font-size: 12px; display: flex; justify-content: space-between; color: var(--color-text-muted); }
-        .temp-data span { color: #fff; font-weight: 600; }
+        .temp-data { font-size: 12px; display: flex; justify-content: space-between; color: var(--color-text-muted); gap: 12px; }
+        .temp-data span { color: #fff; font-weight: 600; text-align: right; }
+        .temp-box.pump-target { border: 1px solid rgba(59, 130, 246, 0.35); background: rgba(59, 130, 246, 0.08); }
+        .temp-box.outside-target { border: 1px solid rgba(16, 185, 129, 0.30); background: rgba(16, 185, 129, 0.07); }
+        .temp-note {
+            margin: -8px 0 22px; padding: 12px 14px; border-radius: var(--radius-sm);
+            background: rgba(255,255,255,0.04); border: 1px solid var(--color-card-border);
+            color: var(--color-text-muted); font-size: 12px; line-height: 1.45;
+        }
+        .temp-note strong { color: var(--color-text-main); }
+        .temp-note span { color: var(--color-primary); font-weight: 700; }
+
+
+
+        .simple-pressure-result {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .simple-pressure-row {
+            display: grid;
+            grid-template-columns: 72px 1fr 1fr;
+            align-items: stretch;
+            gap: 10px;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            background: rgba(255,255,255,0.035);
+            border: 1px solid var(--color-card-border);
+        }
+        .wheel-chip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            color: #fff;
+            background: rgba(255,255,255,0.06);
+        }
+        .wheel-chip.front { border-bottom: 3px solid var(--color-primary); }
+        .wheel-chip.rear { border-bottom: 3px solid var(--color-secondary); }
+        .pressure-pill {
+            text-align: center;
+            border-radius: var(--radius-sm);
+            padding: 12px 8px;
+            background: rgba(0,0,0,0.22);
+        }
+        .pressure-pill.primary {
+            border: 1px solid rgba(59, 130, 246, 0.38);
+            background: rgba(59, 130, 246, 0.09);
+        }
+        .pressure-pill.secondary {
+            border: 1px solid rgba(16, 185, 129, 0.32);
+            background: rgba(16, 185, 129, 0.07);
+        }
+        .pill-label {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .7px;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            margin-bottom: 6px;
+        }
+        .pill-value {
+            font-size: clamp(28px, 8vw, 42px);
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            line-height: 1;
+            color: #fff;
+        }
+        .pill-unit {
+            margin-top: 4px;
+            font-size: 11px;
+            color: var(--color-text-muted);
+        }
+        .result-caption {
+            margin: -6px 0 18px;
+            color: var(--color-text-muted);
+            font-size: 12px;
+            line-height: 1.45;
+            text-align: center;
+        }
+        .result-caption strong { color: var(--color-text-main); }
 
         .chart-wrapper { background: rgba(0,0,0,0.2); border-radius: var(--radius-sm); padding: 10px; height: 220px; width: 100%; }
 
@@ -273,6 +358,126 @@
             font-size: 12px; color: var(--color-text-muted); margin-bottom: 4px; padding-left: 12px; position: relative;
         }
         .warning-list li::before { content: '›'; position: absolute; left: 0; color: var(--color-warning); font-weight: bold; }
+
+
+        /* ===== iPhone 13 mini + iPhone 16 Pro Max refinements ===== */
+        html {
+            min-height: 100%;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100dvh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            background:
+                radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent 34%),
+                radial-gradient(circle at top right, rgba(139, 92, 246, 0.14), transparent 32%),
+                var(--color-bg-dark);
+        }
+
+        .container {
+            padding-left: clamp(12px, 4vw, 24px);
+            padding-right: clamp(12px, 4vw, 24px);
+            padding-top: clamp(10px, 3vw, 20px);
+            padding-bottom: calc(88px + env(safe-area-inset-bottom));
+        }
+
+        .glass-panel,
+        .pressure-card,
+        .temp-box,
+        .warning-box {
+            overflow-wrap: anywhere;
+        }
+
+        input[type="number"], select, button {
+            min-height: 50px;
+            touch-action: manipulation;
+        }
+
+        input[type="range"] {
+            min-height: 44px;
+            touch-action: pan-y;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track { height: 6px; border-radius: 999px; }
+        input[type=range]::-webkit-slider-thumb { height: 30px; width: 30px; margin-top: -12px; }
+
+        .results-header {
+            position: sticky;
+            top: max(8px, env(safe-area-inset-top));
+            z-index: 5;
+            background: rgba(31, 41, 55, 0.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            margin-left: -4px;
+            margin-right: -4px;
+        }
+
+        .chart-wrapper canvas {
+            display: block;
+            max-width: 100%;
+        }
+
+        @media (max-width: 480px) {
+            header { margin-bottom: 22px; }
+            h1 { font-size: clamp(24px, 7vw, 32px); letter-spacing: -1.1px; }
+            .badge { padding: 6px 10px; font-size: 10px; }
+            .glass-panel { padding: 16px; border-radius: 18px; }
+            .input-group { margin-bottom: 20px; }
+            .group-title { margin-bottom: 12px; }
+            .btn-group { position: sticky; bottom: max(10px, env(safe-area-inset-bottom)); z-index: 20; margin-top: 22px; }
+            .btn-group button { box-shadow: 0 10px 28px rgba(0,0,0,0.35); }
+            .pressure-cards-container { gap: 10px; margin-bottom: 22px; }
+            .pressure-card { padding: 16px 10px; }
+            .pressure-number { font-size: clamp(36px, 11vw, 48px); letter-spacing: -1px; }
+            .simple-pressure-row { grid-template-columns: 64px 1fr 1fr; gap: 8px; padding: 10px; }
+            .pressure-pill { padding: 10px 6px; }
+            .pill-label { font-size: 9px; }
+            .temp-grid { gap: 8px; }
+            .temp-box { padding: 10px; }
+            .chart-wrapper { height: 190px; padding: 8px; }
+        }
+
+        @media (max-width: 390px) {
+            body { line-height: 1.58; }
+            .container { padding-left: 10px; padding-right: 10px; }
+            .glass-panel { padding: 14px; }
+            .pressure-cards-container { grid-template-columns: 1fr; }
+            .pressure-card { padding: 14px; }
+            .pressure-number { font-size: 42px; }
+            .simple-pressure-row { grid-template-columns: 1fr; }
+            .wheel-chip { min-height: 34px; }
+            .temp-grid { grid-template-columns: 1fr; }
+            .input-wrapper[style*="grid-template-columns"],
+            div[style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+                gap: 8px !important;
+            }
+            .tooltip-text { width: min(240px, calc(100vw - 32px)); }
+            .chart-wrapper { height: 175px; }
+        }
+
+        @media (min-width: 414px) and (max-width: 520px) {
+            .container { max-width: 460px; }
+            .pressure-number { font-size: 52px; }
+            .chart-wrapper { height: 230px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -485,49 +690,47 @@
             <!-- RIGHT PANEL: RESULTS -->
             <div class="glass-panel">
                 <div class="results-header">
-                    <h2> Diagnostics</h2>
+                    <h2> Pressure Result</h2>
                     <div style="font-size: 10px; color: var(--color-success)">SYSTEM ACTIVE</div>
                 </div>
 
-                <div class="pressure-cards-container">
-                    <div class="pressure-card front">
-                        <div class="pressure-label">Front Wheel</div>
-                        <div class="pressure-number" id="frontPSI">--</div>
-                        <div class="pressure-unit">PSI</div>
-                        <div class="pressure-sub">
-                            <span id="frontBar">--</span> BAR
+                <div class="simple-pressure-result" aria-label="Pressure result">
+                    <div class="simple-pressure-row">
+                        <div class="wheel-chip front">Front</div>
+                        <div class="pressure-pill primary">
+                            <div class="pill-label">Pump garage</div>
+                            <div class="pill-value" id="inflationFrontPSI">--</div>
+                            <div class="pill-unit"><span id="inflationFrontBar">--</span></div>
+                        </div>
+                        <div class="pressure-pill secondary">
+                            <div class="pill-label">Outside goal</div>
+                            <div class="pill-value" id="frontPSI">--</div>
+                            <div class="pill-unit"><span id="frontBar">--</span></div>
                         </div>
                     </div>
 
-                    <div class="pressure-card rear">
-                        <div class="pressure-label">Rear Wheel</div>
-                        <div class="pressure-number" id="rearPSI">--</div>
-                        <div class="pressure-unit">PSI</div>
-                        <div class="pressure-sub">
-                            <span id="rearBar">--</span> BAR
+                    <div class="simple-pressure-row">
+                        <div class="wheel-chip rear">Rear</div>
+                        <div class="pressure-pill primary">
+                            <div class="pill-label">Pump garage</div>
+                            <div class="pill-value" id="inflationRearPSI">--</div>
+                            <div class="pill-unit"><span id="inflationRearBar">--</span></div>
+                        </div>
+                        <div class="pressure-pill secondary">
+                            <div class="pill-label">Outside goal</div>
+                            <div class="pill-value" id="rearPSI">--</div>
+                            <div class="pill-unit"><span id="rearBar">--</span></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="temp-grid">
-                    <div class="temp-box">
-                        <div class="temp-title"> Garage Setup</div>
-                        <div class="temp-data">
-                            Front: <span id="inflationFrontPSI">--</span>
-                        </div>
-                        <div class="temp-data" style="margin-top: 4px;">
-                            Rear: <span id="inflationRearPSI">--</span>
-                        </div>
-                    </div>
-                    <div class="temp-box">
-                        <div class="temp-title"> Riding</div>
-                        <div class="temp-data">
-                            Front: <span id="ridingFrontPSI">--</span>
-                        </div>
-                        <div class="temp-data" style="margin-top: 4px;">
-                            Rear: <span id="ridingRearPSI">--</span>
-                        </div>
-                    </div>
+                <div class="result-caption" id="temperatureDeltaNote">Garage és kinti hőmérséklet alapján korrigálva.</div>
+
+                <div id="hiddenResultValues" hidden>
+                    <span id="ridingFrontPSI">--</span>
+                    <span id="ridingRearPSI">--</span>
+                    <span id="ridingFrontBar">--</span>
+                    <span id="ridingRearBar">--</span>
                 </div>
 
                 <div class="chart-wrapper">
@@ -604,9 +807,30 @@
         };
 
         const bikes = {
-            'bmc_ac01': { name: 'BMC Alpenchallenge 01 THREE', weight: 9.6, defaultWheel: 'dtc1800', distroProfile: 'fitness' },
-            'tcr2025': { name: 'Giant TCR Adv 0 Di2 2025', weight: 7.6, defaultWheel: 'slr0', distroProfile: 'road_race' },
-            'tcr2022': { name: 'TCR Advanced 2022', weight: 8.4, defaultWheel: 'dtswiss', distroProfile: 'road_race' }
+            'bmc_ac01': {
+                name: 'BMC Alpenchallenge 01 THREE',
+                weight: 9.6,
+                defaultWheel: 'dtc1800',
+                distroProfile: 'fitness',
+                defaultTire: 'panaracer_gravelking_slick',
+                defaultTireWidth: 32
+            },
+            'tcr2025': {
+                name: 'Giant TCR Adv 0 Di2 2025',
+                weight: 7.6,
+                defaultWheel: 'slr0',
+                distroProfile: 'road_race',
+                defaultTire: 'cadex_race',
+                defaultTireWidth: 28
+            },
+            'tcr2022': {
+                name: 'TCR Advanced 2022',
+                weight: 8.4,
+                defaultWheel: 'dtswiss',
+                distroProfile: 'road_race',
+                defaultTire: 'giant_gavia_course',
+                defaultTireWidth: 28
+            }
         };
 
         const wheelsets = {
@@ -622,6 +846,8 @@
         let currentFRatio = 0.475;
 
         let pressureChart = null;
+        const IS_SMALL_IPHONE = window.matchMedia('(max-width: 390px)').matches;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         function updateWeightDistro() {
             const profile = document.getElementById('weightDistroProfile').value;
@@ -644,6 +870,8 @@
             document.getElementById('bikeTitle').textContent = bikeData.name;
             document.getElementById('wheelSelect').value = bikeData.defaultWheel;
             document.getElementById('weightDistroProfile').value = bikeData.distroProfile;
+            document.getElementById('tireType').value = bikeData.defaultTire;
+            document.getElementById('tireWidth').value = String(bikeData.defaultTireWidth);
             updateWheel();
         }
 
@@ -680,6 +908,11 @@
         }
 
         function calculatePressure() {
+            if (window.__pressureCalcRAF) cancelAnimationFrame(window.__pressureCalcRAF);
+            window.__pressureCalcRAF = requestAnimationFrame(runPressureCalculation);
+        }
+
+        function runPressureCalculation() {
             const riderWeight = parseFloat(document.getElementById('riderWeight').value) || 75;
             const bikeWeight = parseFloat(document.getElementById('bikeWeight').value) || 7.6;
             const gearWeight = parseFloat(document.getElementById('gearWeight').value) || 0;
@@ -713,29 +946,41 @@
             systemTotalPSI += (surfaceAdjust * 2);
             systemTotalPSI += (prefAdjust * 2);
 
-            let rawFrontPSI = systemTotalPSI * currentFRatio;
-            let rawRearPSI = systemTotalPSI * (1 - currentFRatio);
-
-            const tempKelvinInflation = inflationTemp + 273.15;
-            const tempKelvinAmbient = ambientTemp + 273.15;
-            let frontPSI = rawFrontPSI * (tempKelvinAmbient / tempKelvinInflation);
-            let rearPSI = rawRearPSI * (tempKelvinAmbient / tempKelvinInflation);
+            // First calculate the desired OUTSIDE pressure from the bike setup.
+            // Then work backwards to the GARAGE pump value using absolute pressure.
+            let targetFrontPSI = systemTotalPSI * currentFRatio;
+            let targetRearPSI = systemTotalPSI * (1 - currentFRatio);
 
             const wheelData = wheelsets[wheelKey];
             const tireRatedMax = tireMaxPressure[tireType] || 95;
             const strictLimit = wheelData.type === 'hookless' ? 73 : wheelData.limit;
             const safeMax = Math.min(strictLimit, tireRatedMax);
-            const minPressure = 30; 
+            const minPressure = 30;
+            const atmosphericPSI = 14.7;
 
-            frontPSI = Math.max(minPressure, Math.min(frontPSI, safeMax));
-            rearPSI = Math.max(minPressure, Math.min(rearPSI, safeMax));
-            const hitLimit = (frontPSI >= safeMax - 0.5 || rearPSI >= safeMax - 0.5);
+            targetFrontPSI = Math.max(minPressure, Math.min(targetFrontPSI, safeMax));
+            targetRearPSI = Math.max(minPressure, Math.min(targetRearPSI, safeMax));
+
+            const tempKelvinInflation = inflationTemp + 273.15;
+            const tempKelvinAmbient = ambientTemp + 273.15;
+            const requiredGaragePressure = outsideGaugePSI => ((outsideGaugePSI + atmosphericPSI) * (tempKelvinInflation / tempKelvinAmbient)) - atmosphericPSI;
+            const outdoorPressureFromGarage = garageGaugePSI => ((garageGaugePSI + atmosphericPSI) * (tempKelvinAmbient / tempKelvinInflation)) - atmosphericPSI;
+
+            let inflationFrontPSI = requiredGaragePressure(targetFrontPSI);
+            let inflationRearPSI = requiredGaragePressure(targetRearPSI);
+
+            const hitLimit = (inflationFrontPSI > safeMax || inflationRearPSI > safeMax || targetFrontPSI >= safeMax - 0.5 || targetRearPSI >= safeMax - 0.5);
+
+            inflationFrontPSI = Math.max(minPressure, Math.min(inflationFrontPSI, safeMax));
+            inflationRearPSI = Math.max(minPressure, Math.min(inflationRearPSI, safeMax));
+
+            // This is what the tire should be outside after being pumped in the garage.
+            // If the required garage pressure had to be capped for safety, this will show the safe achievable outside pressure.
+            let frontPSI = Math.max(minPressure, Math.min(outdoorPressureFromGarage(inflationFrontPSI), safeMax));
+            let rearPSI = Math.max(minPressure, Math.min(outdoorPressureFromGarage(inflationRearPSI), safeMax));
 
             frontPSI = Math.round(frontPSI * 10) / 10;
             rearPSI = Math.round(rearPSI * 10) / 10;
-            
-            const inflationFrontPSI = Math.max(minPressure, Math.min(rawFrontPSI, safeMax));
-            const inflationRearPSI = Math.max(minPressure, Math.min(rawRearPSI, safeMax));
 
             const frontElem = document.getElementById('frontPSI');
             const rearElem = document.getElementById('rearPSI');
@@ -750,13 +995,24 @@
                 frontElem.classList.remove('limit-warning');
             }
 
+            const inflationFrontRounded = Math.round(inflationFrontPSI * 10) / 10;
+            const inflationRearRounded = Math.round(inflationRearPSI * 10) / 10;
+            const garageFrontDelta = inflationFrontRounded - frontPSI;
+            const garageRearDelta = inflationRearRounded - rearPSI;
+            const formatSigned = value => (value > 0 ? '+' : '') + value.toFixed(1);
+
             document.getElementById('ridingFrontPSI').textContent = frontPSI.toFixed(1) + ' PSI';
             document.getElementById('ridingRearPSI').textContent = rearPSI.toFixed(1) + ' PSI';
-            document.getElementById('inflationFrontPSI').textContent = inflationFrontPSI.toFixed(1) + ' PSI';
-            document.getElementById('inflationRearPSI').textContent = inflationRearPSI.toFixed(1) + ' PSI';
+            document.getElementById('inflationFrontPSI').textContent = inflationFrontRounded.toFixed(1);
+            document.getElementById('inflationRearPSI').textContent = inflationRearRounded.toFixed(1);
+            document.getElementById('inflationFrontBar').textContent = 'PSI / ' + (inflationFrontRounded / 14.5038).toFixed(2) + ' bar';
+            document.getElementById('inflationRearBar').textContent = 'PSI / ' + (inflationRearRounded / 14.5038).toFixed(2) + ' bar';
+            document.getElementById('ridingFrontBar').textContent = '(' + (frontPSI / 14.5038).toFixed(2) + ' bar)';
+            document.getElementById('ridingRearBar').textContent = '(' + (rearPSI / 14.5038).toFixed(2) + ' bar)';
+            document.getElementById('temperatureDeltaNote').innerHTML = '<strong>Garage</strong>: ezt mutassa a pumpa. <strong>Outside goal</strong>: ez lesz kint. Hőkorrekció: front ' + formatSigned(garageFrontDelta) + ' PSI, rear ' + formatSigned(garageRearDelta) + ' PSI.';
             
-            document.getElementById('frontBar').textContent = (frontPSI / 14.5038).toFixed(2);
-            document.getElementById('rearBar').textContent = (rearPSI / 14.5038).toFixed(2);
+            document.getElementById('frontBar').textContent = 'PSI / ' + (frontPSI / 14.5038).toFixed(2) + ' bar';
+            document.getElementById('rearBar').textContent = 'PSI / ' + (rearPSI / 14.5038).toFixed(2) + ' bar';
             
             document.getElementById('totalWeight').textContent = totalWeight.toFixed(1) + ' kg';
             document.getElementById('utilization').textContent = Math.round((rearPSI / safeMax) * 100) + '%';
@@ -791,33 +1047,37 @@ function updateChart(baseFront, baseRear, inflationTemp, maxLim) {
         pressureChart.data.datasets[0].data = frontData;
         pressureChart.data.datasets[1].data = rearData;
         pressureChart.options.scales.y.max = maxLim + 10;
-        pressureChart.update();
+        pressureChart.update('none');
     } else {
         pressureChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: temps,
                 datasets: [{
-                    label: 'Front',
+                    label: 'Front outside estimate',
                     data: frontData,
                     borderColor: primaryColor,
                     backgroundColor: 'rgba(59, 130, 246, 0.1)',
                     fill: false,
                     tension: 0.4,
-                    pointRadius: 0
+                    pointRadius: 0,
+                    borderWidth: IS_SMALL_IPHONE ? 2 : 3
                 }, {
-                    label: 'Rear',
+                    label: 'Rear outside estimate',
                     data: rearData,
                     borderColor: secondaryColor,
                     backgroundColor: 'rgba(139, 92, 246, 0.1)',
                     fill: false,
                     tension: 0.4,
-                    pointRadius: 0
+                    pointRadius: 0,
+                    borderWidth: IS_SMALL_IPHONE ? 2 : 3
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: prefersReducedMotion || IS_SMALL_IPHONE ? false : { duration: 180 },
+                normalized: true,
                 plugins: {
                     legend: {
                         display: false
@@ -843,14 +1103,16 @@ function updateChart(baseFront, baseRear, inflationTemp, maxLim) {
                     x: {
                         title: {
                             display: true,
-                            text: 'Temperature (°C)',
+                            text: 'Outside temperature (°C)',
                             color: textColor,
                             font: {
                                 size: 10
                             }
                         },
                         ticks: {
-                            color: textColor
+                            color: textColor,
+                            maxTicksLimit: IS_SMALL_IPHONE ? 4 : 7,
+                            autoSkip: true
                         },
                         grid: {
                             color: 'rgba(255, 255, 255, 0.05)'
@@ -859,14 +1121,15 @@ function updateChart(baseFront, baseRear, inflationTemp, maxLim) {
                     y: {
                         title: {
                             display: true,
-                            text: 'Pressure (PSI)',
+                            text: 'Expected outside pressure (PSI)',
                             color: textColor,
                             font: {
                                 size: 10
                             }
                         },
                         ticks: {
-                            color: textColor
+                            color: textColor,
+                            maxTicksLimit: IS_SMALL_IPHONE ? 4 : 6
                         },
                         grid: {
                             color: 'rgba(255, 255, 255, 0.05)'
@@ -882,7 +1145,7 @@ function updateChart(baseFront, baseRear, inflationTemp, maxLim) {
         
         // Reset Function
         function resetForm() {
-            document.getElementById('bikeSelect').value = 'tcr2025';
+            document.getElementById('bikeSelect').value = 'bmc_ac01';
             updateBike();
             document.getElementById('riderWeight').value = 75;
             document.getElementById('surfaceSlider').value = 1;
@@ -895,8 +1158,17 @@ function updateChart(baseFront, baseRear, inflationTemp, maxLim) {
         const inputs = ['riderWeight', 'bikeWeight', 'gearWeight', 'surfaceSlider', 'ridePreference', 'ambientTemp', 'inflationTemp', 'tireType', 'tireWidth', 'rimWidth', 'weightDistroProfile', 'customFRatio'];
         inputs.forEach(id => {
             const el = document.getElementById(id);
-            if(el) el.addEventListener('input', calculatePressure);
+            if (!el) return;
+            el.addEventListener('input', calculatePressure, { passive: true });
+            el.addEventListener('change', calculatePressure, { passive: true });
         });
+
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                if (pressureChart) pressureChart.resize();
+                calculatePressure();
+            }, 250);
+        }, { passive: true });
     </script>
 
 </body>
