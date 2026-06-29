@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- iOS Optimalizáció: Zoom tiltása, Notch kezelés (cover), teljes képernyő -->
+    <!-- iOS optimization: disables zoom, handles notch/safe area (cover), full-screen layout -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#111827">
     <meta name="format-detection" content="telephone=no">
@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="TCR Pressure">
     
-    <!-- App Ikon -->
+    <!-- App Icon -->
     <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Pressure_gauge_icon.svg/128px-Pressure_gauge_icon.svg.png">
 
     <title>Bicycle Pressure Calculator</title>
@@ -50,7 +50,7 @@
             font-size: 16px;
             min-height: 100vh;
             
-            /* iOS Safe Area Padding - Kerüli a szigetet és a home bart */
+            /* iOS safe-area padding: avoids the Dynamic Island/notch and home indicator */
             padding-top: max(20px, env(safe-area-inset-top));
             padding-bottom: max(20px, env(safe-area-inset-bottom));
             padding-left: env(safe-area-inset-left);
@@ -65,7 +65,7 @@
             max-width: 1200px; 
             margin: 0 auto; 
             padding: 20px;
-            padding-bottom: 80px; /* Extra hely a görgetéshez */
+            padding-bottom: 80px; /* Extra space for scrolling */
         }
 
         /* HEADER */
@@ -94,7 +94,7 @@
         .badge.danger-tech { background: rgba(255, 0, 128, 0.1); border-color: var(--color-warning); color: var(--color-warning); }
         .badge.safe-tech { background: rgba(0, 255, 157, 0.1); border-color: var(--color-success); color: var(--color-success); }
 
-        /* TOOLTIPS - Mobilon kattintásra jelenjen meg */
+        /* TOOLTIPS - On mobile, show on tap/press */
         .help-icon {
             display: inline-flex; align-items: center; justify-content: center;
             width: 20px; height: 20px; border-radius: 50%;
@@ -117,7 +117,7 @@
             transition: all 0.2s; pointer-events: none;
         }
 
-        /* LAYOUT - GRID: 1 oszlop mobilon, 2 oszlop tableten/desktopon */
+        /* LAYOUT - GRID: 1 column on mobile, 2 columns on tablet/desktop */
         .main-grid { display: grid; grid-template-columns: 1fr; gap: 20px; align-items: start; }
         @media (min-width: 900px) { .main-grid { grid-template-columns: 380px 1fr; gap: 30px; } }
 
@@ -143,7 +143,7 @@
             color: #fff !important; font-weight: 700 !important;
         }
 
-        /* iOS Input Fix: 16px font megakadályozza a zoomolást */
+        /* iOS input fix: 16px font prevents automatic zoom */
         input[type="number"], select {
             width: 100%; background: var(--color-input-bg); border: 1px solid var(--color-card-border);
             color: #fff; padding: 16px; border-radius: var(--radius-md);
@@ -166,7 +166,7 @@
         select optgroup { background: #1a1d21; color: var(--color-primary); }
         .input-suffix { position: absolute; right: 16px; top: 38px; font-size: 14px; color: var(--color-text-muted); pointer-events: none; }
 
-        /* RANGE SLIDERS - Vastagabb ujjbarát csúszkák */
+        /* RANGE SLIDERS - Thicker, finger-friendly sliders */
         .range-container { padding: 0 5px; }
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; margin: 15px 0; }
         input[type=range]::-webkit-slider-runnable-track {
@@ -724,7 +724,7 @@
                     </div>
                 </div>
 
-                <div class="result-caption" id="temperatureDeltaNote">Garage és kinti hőmérséklet alapján korrigálva.</div>
+                <div class="result-caption" id="temperatureDeltaNote">Corrected using garage and outside temperatures.</div>
 
                 <div id="hiddenResultValues" hidden>
                     <span id="ridingFrontPSI">--</span>
@@ -1009,7 +1009,7 @@
             document.getElementById('inflationRearBar').textContent = 'PSI / ' + (inflationRearRounded / 14.5038).toFixed(2) + ' bar';
             document.getElementById('ridingFrontBar').textContent = '(' + (frontPSI / 14.5038).toFixed(2) + ' bar)';
             document.getElementById('ridingRearBar').textContent = '(' + (rearPSI / 14.5038).toFixed(2) + ' bar)';
-            document.getElementById('temperatureDeltaNote').innerHTML = '<strong>Garage</strong>: ezt mutassa a pumpa. <strong>Outside goal</strong>: ez lesz kint. Hőkorrekció: front ' + formatSigned(garageFrontDelta) + ' PSI, rear ' + formatSigned(garageRearDelta) + ' PSI.';
+            document.getElementById('temperatureDeltaNote').innerHTML = '<strong>Garage</strong>: this is what the pump should show. <strong>Outside goal</strong>: this is the expected outdoor pressure. Temperature correction: front ' + formatSigned(garageFrontDelta) + ' PSI, rear ' + formatSigned(garageRearDelta) + ' PSI.';
             
             document.getElementById('frontBar').textContent = 'PSI / ' + (frontPSI / 14.5038).toFixed(2) + ' bar';
             document.getElementById('rearBar').textContent = 'PSI / ' + (rearPSI / 14.5038).toFixed(2) + ' bar';
