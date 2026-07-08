@@ -357,7 +357,7 @@
         .warning-list li {
             font-size: 12px; color: var(--color-text-muted); margin-bottom: 4px; padding-left: 12px; position: relative;
         }
-        .warning-list li::before { content: '›'; position: absolute; left: 0; color: var(--color-warning); font-weight: bold; }
+        .warning-list li::before { content: '\203A'; position: absolute; left: 0; color: var(--color-warning); font-weight: bold; }
 
 
         /* ===== iPhone 13 mini + iPhone 16 Pro Max refinements ===== */
@@ -481,6 +481,7 @@
     </style>
 </head>
 <body>
+    <!-- App UI: inputs, results, chart, and safety guidance -->
     <div class="container">
         <header>
             <h1 id="bikeTitle">BMC Alpenchallenge 01 THREE</h1>
@@ -778,11 +779,12 @@
 
         <footer class="footer">
             <div class="footer-logo"></div>
-            <div>Engineering Data • Ideal Gas Law • iPhone Optimized</div>
+            <div>Engineering Data - Ideal Gas Law - iPhone Optimized</div>
         </footer>
     </div>
 
 <script>
+/* Vendored dependency: Chart.js 4.4.1, embedded for offline use. */
 /*!
  * Chart.js v4.4.1
  * https://www.chartjs.org
@@ -799,6 +801,7 @@
 //# sourceMappingURL=chart.umd.js.map
 </script>
     <script>
+        // App data and pressure-calculation logic.
         const tireMaxPressure = {
             cadex_race: 95, cadex_classics: 95, giant_gavia_course: 105, giant_gavia_fondo: 105, giant_gavia_ac: 105,    
             conti_gp5000str: 109, conti_gp5000astr: 109, schwalbe_proone: 95, schwalbe_one: 95,

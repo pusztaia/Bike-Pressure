@@ -103,6 +103,24 @@ The page is optimized for both iPhone 16 Pro Max and iPhone 13 mini:
 - No backend
 - No installation required
 
+## Project Structure
+
+This is a static single-file web app. There is no Python package, build pipeline, or server component.
+
+```text
+bike-pressure/
+├── index.html  # Complete calculator app: HTML, CSS, Chart.js, and app JavaScript
+├── README.md   # Project documentation and customization notes
+└── .git/       # Git metadata
+```
+
+Inside `index.html`, the app is organized into four broad sections:
+
+- `<head>` metadata for iOS/mobile behavior, app title, icon, and font loading.
+- Embedded CSS for the dark mobile-first interface, safe-area handling, controls, results, and chart layout.
+- HTML markup for bike, wheel, tire, rider, temperature, result, chart, and safety panels.
+- Embedded JavaScript containing Chart.js, bike/wheel/tire data, pressure calculations, UI updates, and event listeners.
+
 ## Customization
 
 Bike, wheelset, tire, and pressure-limit data can be edited directly in the JavaScript section of `index.html`.
@@ -157,5 +175,5 @@ Always check the official maximum pressure for both the tire and the rim. Use th
 
 ## Files
 
-- `index.html` - the calculator.
+- `index.html` - the complete calculator application.
 - `README.md` - this documentation.
