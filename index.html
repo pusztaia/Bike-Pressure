@@ -144,7 +144,7 @@
         }
 
         /* iOS input fix: 16px font prevents automatic zoom */
-        input[type="number"], select {
+        input[type="number"], input[inputmode="decimal"], input[inputmode="numeric"], select {
             width: 100%; background: var(--color-input-bg); border: 1px solid var(--color-card-border);
             color: #fff; padding: 16px; border-radius: var(--radius-md);
             font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 500;
@@ -158,7 +158,7 @@
             background-size: 10px auto;
         }
 
-        input[type="number"]:focus, select:focus {
+        input[type="number"]:focus, input[inputmode="decimal"]:focus, input[inputmode="numeric"]:focus, select:focus {
             outline: none; border-color: var(--color-primary);
             background: rgba(0, 0, 0, 0.6);
         }
@@ -393,7 +393,7 @@
             overflow-wrap: anywhere;
         }
 
-        input[type="number"], select, button {
+        input[type="number"], input[inputmode="decimal"], input[inputmode="numeric"], select, button {
             min-height: 50px;
             touch-action: manipulation;
         }
@@ -512,15 +512,15 @@
                     <div class="input-wrapper">
                         <label class="input-label">Select Bike</label>
                         <select id="bikeSelect" class="select-highlight" onchange="updateBike()">
-                            <option value="bmc_ac01" selected>BMC Alpenchallenge 01 THREE (L)</option>
-                            <option value="tcr2025">Giant TCR Adv 0 Di2 2025 (L)</option>
+                            <option value="tcr2025" selected>Giant TCR Adv 0 Di2 2025 (L)</option>
+                            <option value="bmc_ac01">BMC Alpenchallenge 01 THREE (L)</option>
                             <option value="tcr2022">Giant TCR Advanced 2022 (L)</option>
                         </select>
                     </div>
                     
                     <div class="input-wrapper">
                         <label class="input-label">Bike Weight (kg)</label>
-                        <input type="number" id="bikeWeight" value="7.6" min="5" max="15" step="0.1" inputmode="decimal">
+                        <input type="text" id="bikeWeight" value="7.6" min="5" max="15" step="0.1" inputmode="decimal">
                     </div>
 
                     <div class="input-wrapper">
@@ -534,7 +534,7 @@
 
                     <div class="input-wrapper" id="customFRatioWrapper" style="display: none;">
                         <label class="input-label">Custom Front Ratio (%)</label>
-                        <input type="number" id="customFRatio" value="47.5" min="30" max="70" step="0.1" inputmode="decimal">
+                        <input type="text" id="customFRatio" value="47.5" min="30" max="70" step="0.1" inputmode="decimal">
                     </div>
 
                     <div class="input-wrapper">
@@ -550,7 +550,7 @@
                         <label class="input-label">
                             Rim Inner Width (mm)
                         </label>
-                        <input type="number" id="rimWidth" value="22.4" min="15" max="35" step="0.1" inputmode="decimal">
+                        <input type="text" id="rimWidth" value="22.4" min="15" max="35" step="0.1" inputmode="decimal">
                     </div>
                 </div>
 
@@ -630,6 +630,28 @@
                         </div>
                     </div>
 
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                        <div class="input-wrapper">
+                            <label class="input-label">Rider (kg)</label>
+                            <input type="text" id="riderWeight" value="75" min="40" max="150" step="0.5" inputmode="decimal">
+                        </div>
+                        <div class="input-wrapper">
+                            <label class="input-label">Gear (kg)</label>
+                            <input type="text" id="gearWeight" value="3.5" min="0" max="20" step="0.1" inputmode="decimal">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                        <div class="input-wrapper">
+                            <label class="input-label">Bottles (count)</label>
+                            <input type="text" id="bottleCount" value="1" min="0" max="10" step="1" inputmode="numeric">
+                        </div>
+                        <div class="input-wrapper">
+                            <label class="input-label">kg / bottle</label>
+                            <input type="text" id="bottleWeight" value="0.65" min="0" max="2" step="0.05" inputmode="decimal">
+                        </div>
+                    </div>
+
                     <div class="input-wrapper" style="margin-top: 15px;">
                         <label class="input-label">
                             Surface Type
@@ -657,25 +679,14 @@
                         </div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px;">
-                        <div class="input-wrapper">
-                            <label class="input-label">Rider (kg)</label>
-                            <input type="number" id="riderWeight" value="75" min="40" max="150" step="0.5" inputmode="decimal">
-                        </div>
-                        <div class="input-wrapper">
-                            <label class="input-label">Gear (kg)</label>
-                            <input type="number" id="gearWeight" value="1.5" min="0" max="20" step="0.1" inputmode="decimal">
-                        </div>
-                    </div>
-
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
                         <div class="input-wrapper">
                             <label class="input-label">Outside °C</label>
-                            <input type="number" id="ambientTemp" value="15" inputmode="decimal">
+                            <input type="text" id="ambientTemp" value="15" inputmode="decimal">
                         </div>
                         <div class="input-wrapper">
                             <label class="input-label">Garage °C</label>
-                            <input type="number" id="inflationTemp" value="24" inputmode="decimal">
+                            <input type="text" id="inflationTemp" value="24" inputmode="decimal">
                         </div>
                     </div>
                 </div>
@@ -802,6 +813,13 @@
 </script>
     <script>
         // App data and pressure-calculation logic.
+
+        // iOS keyboards in comma-decimal locales (e.g. Hungarian) only offer ",".
+        // Accept both separators when reading decimal input fields.
+        function toFloat(value) {
+            return parseFloat(String(value).replace(',', '.'));
+        }
+
         const tireMaxPressure = {
             cadex_race: 95, cadex_classics: 95, giant_gavia_course: 105, giant_gavia_fondo: 105, giant_gavia_ac: 105,    
             conti_gp5000str: 109, conti_gp5000astr: 109, schwalbe_proone: 95, schwalbe_one: 95,
@@ -858,7 +876,7 @@
             
             if (profile === 'manual') {
                 customWrapper.style.display = 'block';
-                currentFRatio = parseFloat(document.getElementById('customFRatio').value) / 100;
+                currentFRatio = toFloat(document.getElementById('customFRatio').value) / 100;
             } else {
                 customWrapper.style.display = 'none';
                 currentFRatio = weightDistributionRatios[profile];
@@ -916,17 +934,20 @@
         }
 
         function runPressureCalculation() {
-            const riderWeight = parseFloat(document.getElementById('riderWeight').value) || 75;
-            const bikeWeight = parseFloat(document.getElementById('bikeWeight').value) || 7.6;
-            const gearWeight = parseFloat(document.getElementById('gearWeight').value) || 0;
-            const ambientTemp = parseFloat(document.getElementById('ambientTemp').value) || 15;
-            const inflationTemp = parseFloat(document.getElementById('inflationTemp').value) || 20;
+            const riderWeight = toFloat(document.getElementById('riderWeight').value) || 75;
+            const bikeWeight = toFloat(document.getElementById('bikeWeight').value) || 7.6;
+            const gearWeight = toFloat(document.getElementById('gearWeight').value) || 0;
+            const bottleCount = toFloat(document.getElementById('bottleCount').value) || 0;
+            const bottleUnitWeight = toFloat(document.getElementById('bottleWeight').value) || 0;
+            const bottlesWeight = bottleCount * bottleUnitWeight;
+            const ambientTemp = toFloat(document.getElementById('ambientTemp').value) || 15;
+            const inflationTemp = toFloat(document.getElementById('inflationTemp').value) || 20;
             const tireType = document.getElementById('tireType').value;
             const tireWidth = parseInt(document.getElementById('tireWidth').value);
             const wheelKey = document.getElementById('wheelSelect').value;
-            const rimWidth = parseFloat(document.getElementById('rimWidth').value) || 19;
+            const rimWidth = toFloat(document.getElementById('rimWidth').value) || 19;
             
-            const totalWeight = riderWeight + bikeWeight + gearWeight;
+            const totalWeight = riderWeight + bikeWeight + gearWeight + bottlesWeight;
             
             const surfaceVal = parseInt(document.getElementById('surfaceSlider').value);
             const surfaceAdjust = (surfaceVal === 2 ? -2 : (surfaceVal === 3 ? -3 : (surfaceVal === 4 ? -4 : 0)));
@@ -1148,9 +1169,11 @@ function updateChart(baseFront, baseRear, inflationTemp, maxLim) {
         
         // Reset Function
         function resetForm() {
-            document.getElementById('bikeSelect').value = 'bmc_ac01';
+            document.getElementById('bikeSelect').value = 'tcr2025';
             updateBike();
             document.getElementById('riderWeight').value = 75;
+            document.getElementById('bottleCount').value = 1;
+            document.getElementById('bottleWeight').value = 0.65;
             document.getElementById('surfaceSlider').value = 1;
             document.getElementById('ridePreference').value = 0;
             calculatePressure();
@@ -1158,7 +1181,7 @@ function updateChart(baseFront, baseRear, inflationTemp, maxLim) {
 
         updateBike();
         
-        const inputs = ['riderWeight', 'bikeWeight', 'gearWeight', 'surfaceSlider', 'ridePreference', 'ambientTemp', 'inflationTemp', 'tireType', 'tireWidth', 'rimWidth', 'weightDistroProfile', 'customFRatio'];
+        const inputs = ['riderWeight', 'bikeWeight', 'gearWeight', 'bottleCount', 'bottleWeight', 'surfaceSlider', 'ridePreference', 'ambientTemp', 'inflationTemp', 'tireType', 'tireWidth', 'rimWidth', 'weightDistroProfile', 'customFRatio'];
         inputs.forEach(id => {
             const el = document.getElementById(id);
             if (!el) return;

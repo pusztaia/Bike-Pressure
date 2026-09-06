@@ -24,6 +24,8 @@ This matters because the ideal gas law relates absolute pressure and absolute te
 2. Select the bike profile.
 3. Check the tire model, tire width, wheelset, rim type, and rider/gear weight.
 4. Enter:
+   - **Rider (kg)**, **Gear (kg)**: rider and gear weight.
+   - **Bottles (count)** and **kg / bottle**: number of water bottles carried and the weight of each (default 0.65 kg per bottle), added to total weight.
    - **Outside °C**: expected outdoor riding temperature.
    - **Garage °C**: temperature where you inflate the tires.
 5. Read the **Pressure Result** section:
@@ -34,8 +36,8 @@ This matters because the ideal gas law relates absolute pressure and absolute te
 
 | Bike | Weight | Wheelset | Rim | Tire | Size | Weight distribution |
 |---|---:|---|---|---|---:|---|
+| Giant TCR Adv 0 Di2 2025 (default) | 7.6 kg | Giant/CADEX SLR 0 | Hookless, 22.4 mm | CADEX Race GC | 28c | Road Race, 44/56 |
 | BMC Alpenchallenge 01 THREE | 9.6 kg | DT SWISS C 1800 SPLINE 23 DB | Hooked, 22 mm | Panaracer Gravelking Slick TLC | 32c | Fitness, 43/57 |
-| Giant TCR Adv 0 Di2 2025 | 7.6 kg | Giant/CADEX SLR 0 | Hookless, 22.4 mm | CADEX Race GC | 28c | Road Race, 44/56 |
 | TCR Advanced 2022 | 8.4 kg | DT Swiss PR 1600 32 | Hooked, 18 mm | Giant Gavia Course | 28c | Road Race, 44/56 |
 
 ## What the Calculator Considers
@@ -43,6 +45,7 @@ This matters because the ideal gas law relates absolute pressure and absolute te
 - Rider weight
 - Bike weight
 - Gear weight
+- Water bottle count and weight per bottle
 - Front/rear weight distribution
 - Tire width
 - Tire model maximum pressure
@@ -88,6 +91,7 @@ The page is optimized for both iPhone 16 Pro Max and iPhone 13 mini:
 - `viewport-fit=cover`
 - Safe area inset handling for Dynamic Island, notch, and home indicator
 - Input font size of 16 px or larger to avoid automatic iOS zoom
+- Decimal inputs accept both `,` and `.` (needed for locales like Hungarian, where the iOS numeric keypad only shows a comma)
 - Larger touch targets
 - Simplified mobile pressure result layout
 - Fewer chart ticks and reduced animation on smaller iPhones
