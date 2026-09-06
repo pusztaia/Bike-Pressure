@@ -1189,6 +1189,13 @@ function updateChart(baseFront, baseRear, inflationTemp, maxLim) {
             el.addEventListener('change', calculatePressure, { passive: true });
         });
 
+        // Normalize "," to "." in the field itself once the user leaves it.
+        document.querySelectorAll('input[inputmode="decimal"]').forEach(el => {
+            el.addEventListener('blur', () => {
+                if (el.value.includes(',')) el.value = el.value.replace(',', '.');
+            });
+        });
+
         window.addEventListener('orientationchange', () => {
             setTimeout(() => {
                 if (pressureChart) pressureChart.resize();
